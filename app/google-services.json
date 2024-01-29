@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "908621315184",
+    "project_id": "appdaniel-fa43b",
+    "storage_bucket": "appdaniel-fa43b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908621315184:android:ca70c09f4e5f5f1cef08b5",
+        "android_client_info": {
+          "package_name": "com.daniel.appdaniel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908621315184-9t3dp0a15abgm2t53s7h81vvaj0qfnd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daniel.appdaniel",
+            "certificate_hash": "e2268fd65b6ea165de3e19639fd28ed780d4c4b3"
+          }
+        },
+        {
+          "client_id": "908621315184-ln96vek7a90rlnkaer7k6h3br1i33le6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-Ko7jhsZOO99lavI4vFcmSoP_BdUWFhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908621315184-ln96vek7a90rlnkaer7k6h3br1i33le6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

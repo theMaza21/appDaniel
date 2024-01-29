@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#D80000</color>
+    <color name="red_700">#811717</color>
+    <color name= "colorGray">#CACACA</color>
+    <color name= "colorGrayLite">#E0E0E0</color>
+    <color name= "colorDarckBlue">#030515</color>
+    <color name= "colorAzul">#3A50FF</color>
+    <color name= "colorAzulPS4">#001CFF</color>
+    <color name= "colorRojoNintendo">#FF0000</color>
+    <color name= "colorVerdeXBOX">#24A600</color>
+    <color name= "colorPC">#121111</color>
+    <style name="ToolbarName" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+
+    </style>
+</resources>
