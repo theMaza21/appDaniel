@@ -30,12 +30,16 @@ import com.daniel.appdaniel.adapters.CommentAdapter;
 import com.daniel.appdaniel.adapters.PostsAdapter;
 import com.daniel.appdaniel.adapters.SliderAdapter;
 import com.daniel.appdaniel.models.Comment;
+import com.daniel.appdaniel.models.FCMBody;
+import com.daniel.appdaniel.models.FCMResponse;
 import com.daniel.appdaniel.models.Post;
 import com.daniel.appdaniel.models.SliderItem;
 import com.daniel.appdaniel.providers.AuthProvider;
 import com.daniel.appdaniel.providers.CommentProvider;
 import com.daniel.appdaniel.providers.LikesProvider;
+import com.daniel.appdaniel.providers.NotificationProviders;
 import com.daniel.appdaniel.providers.PostProvider;
+import com.daniel.appdaniel.providers.TokenProvider;
 import com.daniel.appdaniel.providers.UsersProvider;
 import com.daniel.appdaniel.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -57,9 +61,14 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostDetailActivity extends AppCompatActivity {
     SliderView msliderView;
@@ -83,11 +92,12 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView mTextViewLikes;
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
-
+    TokenProvider mTokenProvider;
     String mIdUser = "";
     FloatingActionButton mFabComment;
     RecyclerView mRecyclerView;
     Toolbar mToolbar;
+    NotificationProviders mNotificationProviders;
 
 
     @Override
@@ -122,6 +132,8 @@ public class PostDetailActivity extends AppCompatActivity {
         mCommentProvider = new CommentProvider();
         mAuthProvider = new AuthProvider();
         mLikesProvider = new LikesProvider();
+        mNotificationProviders = new NotificationProviders();
+        mTokenProvider = new TokenProvider();
         mExtraPostId = getIntent().getStringExtra("id");
 
 
@@ -237,7 +249,7 @@ public class PostDetailActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void createComment(String value)
+    private void createComment(final String value)
     {
         Comment comment = new Comment();
         comment.setComment(value);
@@ -249,6 +261,7 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful())
                 {
+                    sendNoificaation(value);
                     Toast.makeText(PostDetailActivity.this, "El comentario se creo correcta mente ", Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -259,7 +272,61 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
     }
+     private void sendNoificaation(final String comment)
+     {
+        if (mIdUser == null)
+        {
+        return;
+        }
+        mTokenProvider.getToken(mIdUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                if (documentSnapshot.exists())
+                {
+                    if (documentSnapshot.contains("token"))
+                    {
+                        String token = documentSnapshot.getString("token");
+                        Map<String, String> data = new HashMap<>();
+                        data.put("title","NUEVO COMENTARIO ");
+                        data.put("body",comment);
+                        FCMBody body = new FCMBody(token,  "higt","4500s",data);
+                        mNotificationProviders.sendNotification(body).enqueue(new Callback<FCMResponse>()
+                        {
+                            @Override
+                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response)
+                            {
+                                if(response.body() != null)
+                                {
+                                    if (response.body().getSuccess() == 1)
+                                    {
+                                        Toast.makeText(PostDetailActivity.this, "La Notificacion se Envio Correcta Mente ", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(PostDetailActivity.this, "La Notificacion no se Pudo mandar Correctamente ", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else
+                                {
+                                    Toast.makeText(PostDetailActivity.this, "La Notificacion no se Pudo mandar Correctamente ", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<FCMResponse> call, Throwable t) {
 
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Toast.makeText(PostDetailActivity.this, "El Token del Usuario no Existe  ", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+     }
     private void goToShowProfile()
     {
         if(!mIdUser.equals(""))

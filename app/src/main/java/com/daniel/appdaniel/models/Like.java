@@ -6,10 +6,10 @@ public class Like
     private String idPost;
     private String idUser;
     private Long timestamp;
-public Like()
-{
+     public Like()
+     {
 
-}
+     }
      public Like(String id, String idPost, String idUser, Long timestamp) {
         this.id = id;
         this.idPost = idPost;

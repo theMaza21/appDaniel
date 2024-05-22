@@ -13,11 +13,14 @@ import com.daniel.appdaniel.fragments.ChatFragment;
 import com.daniel.appdaniel.fragments.FiltersFragment;
 import com.daniel.appdaniel.fragments.HomeFragment;
 import com.daniel.appdaniel.fragments.ProfileFragment;
+import com.daniel.appdaniel.providers.AuthProvider;
+import com.daniel.appdaniel.providers.TokenProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
-
+    TokenProvider mTokenProvider;
+    AuthProvider mAuthProvider;
 
 
     @Override
@@ -27,6 +30,9 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(new HomeFragment());
+        mTokenProvider = new TokenProvider();
+        mAuthProvider = new AuthProvider();
+        createToken();
     }
 
     public void openFragment(Fragment fragment) {
@@ -58,4 +64,9 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
                 }
             };
+    private void createToken()
+    {
+        mTokenProvider.create(mAuthProvider.getUid());
+    }
+
 }

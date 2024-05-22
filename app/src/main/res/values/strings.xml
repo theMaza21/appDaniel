@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AppDaniel</string>
     <string name="default_web_client_id">project-908621315184</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_channel</string>
+    <string name="msg_token_fmt">Token: %s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transtionname">transitionnamepicture</string>
     <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
